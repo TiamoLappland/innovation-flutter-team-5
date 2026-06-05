@@ -10,7 +10,7 @@ class InnovationHelloApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '🎨 钟淑蓉的 Flutter 创意空间',
+      title: '🎨 Flutter 创意空间',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFE91E63)),
         useMaterial3: true,
@@ -152,7 +152,7 @@ class _HelloHomePageState extends State<HelloHomePage> with TickerProviderStateM
                   child: Column(
                     children: const [
                       Text(
-                        '姓名：钟淑蓉',
+                        '姓名：张三',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
