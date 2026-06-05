@@ -1,0 +1,26 @@
+# Flutter
+/build/
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/
+*.lock
+.metadata
+
+# Android
+/android/app/build/
+/android/.gradle/
+/android/local.properties
+
+# iOS
+/ios/Pods/
+/ios/.symlinks/
+
+# Web
+/web/.dart_tool/
+
+# Windows
+/windows/flutter/

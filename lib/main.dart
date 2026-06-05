@@ -21,7 +21,6 @@ void main() {
 // --------------- MaterialApp 外壳 ---------------
 class InnovationHelloApp extends StatelessWidget {
   const InnovationHelloApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,6 +34,7 @@ class InnovationHelloApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HelloHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -42,7 +42,6 @@ class InnovationHelloApp extends StatelessWidget {
 // --------------- 主页 ---------------
 class HelloHomePage extends StatefulWidget {
   const HelloHomePage({super.key});
-
   @override
   State<HelloHomePage> createState() => _HelloHomePageState();
 }
@@ -308,6 +307,7 @@ class _HelloHomePageState extends State<HelloHomePage> {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
