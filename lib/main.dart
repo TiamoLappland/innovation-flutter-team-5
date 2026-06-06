@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 
+// ============================================================
+//  创新实验 第14周 — 任务清单 App
+//  个人 Flutter HelloWorld 个性化修改
+// ============================================================
+
+// --------------- 任务数据模型 ---------------
+class TaskItem {
+  String title;
+  bool isCompleted;
+
+  TaskItem({required this.title, this.isCompleted = false});
+}
+
+// --------------- 入口 ---------------
 void main() {
   runApp(const InnovationHelloApp());
 }
 
+// --------------- MaterialApp 外壳 ---------------
 class InnovationHelloApp extends StatelessWidget {
   const InnovationHelloApp({super.key});
   @override
@@ -21,6 +36,7 @@ class InnovationHelloApp extends StatelessWidget {
   }
 }
 
+// --------------- 主页 ---------------
 class HelloHomePage extends StatefulWidget {
   const HelloHomePage({super.key});
   @override
@@ -62,9 +78,82 @@ class _HelloHomePageState extends State<HelloHomePage> with TickerProviderStateM
     });
   }
 
+  // ---- 添加新任务 ----
+  void _addTask() {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('添加新任务'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            hintText: '请输入任务内容',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () {
+              final text = controller.text.trim();
+              if (text.isNotEmpty) {
+                setState(() {
+                  _tasks.add(TaskItem(title: text));
+                });
+                Navigator.pop(ctx);
+              }
+            },
+            child: const Text('添加'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ---- 清除已完成任务 ----
+  void _clearCompleted() {
+    if (_completedCount == 0) return;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('清除已完成任务'),
+        content: Text('确定要删除所有已完成的 $_completedCount 条任务吗？'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () {
+              setState(() {
+                _tasks.removeWhere((t) => t.isCompleted);
+              });
+              Navigator.pop(ctx);
+            },
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+            child: const Text('确定删除'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ========================================
+  //  Build
+  // ========================================
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
+      // ========== AppBar ==========
       appBar: AppBar(
         title: const Text(
           '🎀 创新实验第14周',
@@ -88,11 +177,35 @@ class _HelloHomePageState extends State<HelloHomePage> with TickerProviderStateM
             ],
           ),
         ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
+        backgroundColor: colorScheme.inversePrimary,
+        actions: [
+          if (_completedCount > 0)
+            IconButton(
+              icon: const Icon(Icons.auto_delete_outlined),
+              tooltip: '清除已完成',
+              onPressed: _clearCompleted,
+            ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: '添加任务',
+            onPressed: _addTask,
+          ),
+        ],
+      ),
+
+      // ========== Body ==========
+      body: Column(
+        children: [
+          // ---- 顶部进度卡片 ----
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: colorScheme.primaryContainer.withAlpha(100),
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // 动画图标
                 ScaleTransition(
@@ -184,7 +297,18 @@ class _HelloHomePageState extends State<HelloHomePage> with TickerProviderStateM
                         blurRadius: _isAnimating ? 25 : 15,
                         spreadRadius: _isAnimating ? 10 : 5,
                       ),
-                    ],
+                ),
+              ],
+            ),
+          ),
+
+          // ---- 页面说明（修改点②）----
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+            child: Text(
+              '我正在完成第 14 周 Flutter 入门任务',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                   ),
                   child: Column(
                     children: [
@@ -205,8 +329,8 @@ class _HelloHomePageState extends State<HelloHomePage> with TickerProviderStateM
                           color: Colors.white70,
                           fontWeight: FontWeight.w500,
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 24),
