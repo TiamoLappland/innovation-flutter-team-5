@@ -343,7 +343,7 @@ class SparkleIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Icon(
-      Icons.sparkles,
+      Icons.star,
       size: 35,
       color: color,
     );
