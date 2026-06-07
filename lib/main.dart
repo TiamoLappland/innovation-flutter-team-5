@@ -32,6 +32,7 @@ class HelloHomePage extends StatefulWidget {
 
 class _HelloHomePageState extends State<HelloHomePage> {
   int completedTasks = 0;
+  bool isFavorite = false;
 
   void finishOneTask() {
     setState(() {
@@ -44,11 +45,11 @@ class _HelloHomePageState extends State<HelloHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '🎀 创新实验第14周',
+          '🎀 创新实验第14周 - 第5组',
           style: TextStyle(
             fontFamily: 'Comic Sans MS',
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 18,
             letterSpacing: 1.5,
           ),
         ),
@@ -56,6 +57,19 @@ class _HelloHomePageState extends State<HelloHomePage> {
         centerTitle: true,
         elevation: 0,
         shadowColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: isFavorite ? const Color(0xFFFF6B8A) : const Color(0xFF9333EA),
+            ),
+            onPressed: () {
+              setState(() {
+                isFavorite = !isFavorite;
+              });
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -160,6 +174,123 @@ class _HelloHomePageState extends State<HelloHomePage> {
                               fontFamily: 'Comic Sans MS',
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // 新增：统计卡片
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFFC4B5FD).withOpacity(0.2),
+                            blurRadius: 15,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildStatItem('$completedTasks', '打卡次数', const Color(0xFFFFB7C5)),
+                          Container(height: 40, width: 1, color: const Color(0xFFE5E7EB)),
+                          _buildStatItem('${completedTasks > 0 ? completedTasks : 1}', '连续天数', const Color(0xFFC4B5FD)),
+                          Container(height: 40, width: 1, color: const Color(0xFFE5E7EB)),
+                          _buildStatItem('${(completedTasks * 10).clamp(0, 100)}%', '完成进度', const Color(0xFFF9A8D4)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // 新增：团队成员
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFFFFB7C5).withOpacity(0.15),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.group, color: Color(0xFF9333EA), size: 20),
+                              SizedBox(width: 8),
+                              Text(
+                                '团队成员',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF9333EA),
+                                  fontFamily: 'Comic Sans MS',
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              _buildMemberChip('徐冬琴'),
+                              _buildMemberChip('成员A'),
+                              _buildMemberChip('成员B'),
+                              _buildMemberChip('成员C'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // 新增：本周任务
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFFC4B5FD).withOpacity(0.15),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.task_alt, color: Color(0xFFE11D48), size: 20),
+                              SizedBox(width: 8),
+                              Text(
+                                '本周任务',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFE11D48),
+                                  fontFamily: 'Comic Sans MS',
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          _buildTaskItem('Flutter环境搭建', true),
+                          _buildTaskItem('运行第一个Flutter应用', true),
+                          _buildTaskItem('完成个性化修改', completedTasks > 0),
+                          _buildTaskItem('提交小组作业', completedTasks > 1),
                         ],
                       ),
                     ),
@@ -290,6 +421,77 @@ class _HelloHomePageState extends State<HelloHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+
+  Widget _buildStatItem(String value, String label, Color color) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: color,
+            fontFamily: 'Comic Sans MS',
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Color(0xFF6B7280),
+            fontFamily: 'Comic Sans MS',
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMemberChip(String name) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF0F3),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFFFB7C5).withOpacity(0.3),
+        ),
+      ),
+      child: Text(
+        name,
+        style: const TextStyle(
+          fontSize: 13,
+          color: Color(0xFFE11D48),
+          fontFamily: 'Comic Sans MS',
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTaskItem(String task, bool isCompleted) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Icon(
+            isCompleted ? Icons.check_circle : Icons.circle_outlined,
+            color: isCompleted ? const Color(0xFF10B981) : const Color(0xFFD1D5DB),
+            size: 20,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            task,
+            style: TextStyle(
+              fontSize: 14,
+              color: isCompleted ? const Color(0xFF374151) : const Color(0xFF9CA3AF),
+              fontFamily: 'Comic Sans MS',
+              decoration: isCompleted ? TextDecoration.lineThrough : null,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
