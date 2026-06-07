@@ -143,7 +143,7 @@ class _HelloHomePageState extends State<HelloHomePage> {
                       child: const Column(
                         children: [
                           Text(
-                            '姓名：张三',
+                            '姓名：徐冬琴',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class _HelloHomePageState extends State<HelloHomePage> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            '学号后四位：1234 | 小组：第5组',
+                            '学号后四位：062 | 小组：第5组',
                             style: TextStyle(
                               fontSize: 15,
                               color: Color(0xFF6B7280),
