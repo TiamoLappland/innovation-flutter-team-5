@@ -1,29 +1,41 @@
-# Flutter Hello World 个性化示例
+# Flutter Hello World Personalized
 
-本示例用于创新实验第14周课堂任务。学生需要在能运行的 Flutter 项目中修改 `lib/main.dart`，做出自己的个性化 Hello World 页面。
+一个基于 Flutter 的学习中心应用，包含深色主题界面和多种功能。
 
-## 运行
+## 功能特性
 
-```powershell
-flutter run
+- 用户信息展示卡片
+- 学习进度统计（打卡次数、连续天数、总体进度）
+- 今日任务完成情况
+- 学习进度列表（代码练习、理论学习、项目实践、小组协作）
+- 功能网格导航（代码编辑器、视频教程、在线测试、小组讨论）
+- 浮动打卡按钮，点击实时更新数据
+
+## 技术栈
+
+- Flutter 3.x
+- Dart
+- Material Design
+
+## 运行项目
+
+```bash
+flutter run -d edge
 ```
 
-## 必做修改
+或使用 web-server 模式：
 
-至少完成 4 处个性化修改：
-
-1. AppBar 标题；
-2. 页面提示语；
-3. 姓名、学号后四位或小组编号；
-4. 按钮文案、图标、颜色或布局；
-5. 点击按钮后的计数含义。
-
-## 提交
-
-```powershell
-git add lib/main.dart
-git commit -m "personalize flutter hello page"
-git push
+```bash
+flutter run -d web-server --web-port 55555
 ```
 
-课堂提交运行截图和 GitHub 提交记录截图。
+## 界面预览
+
+应用采用深色主题设计，包含：
+- 紫蓝色渐变背景
+- 玻璃拟态卡片效果
+- 现代化的卡片式布局
+
+## 作者
+
+L | 第1组 | 创新实验
